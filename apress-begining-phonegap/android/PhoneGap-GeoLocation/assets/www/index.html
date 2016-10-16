@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap</title>
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript">
+       /** Called when phonegap javascript is loaded */
+		function onDeviceReady(){
+			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}
+
+		function onSuccess(position) {
+		    document.getElementById('latitude').innerHTML = position.coords.latitude;
+		    document.getElementById('longitude').innerHTML = position.coords.longitude;
+		    document.getElementById('altitude').innerHTML = position.coords.altitude;
+		    document.getElementById('timestamp').innerHTML = new Date(position.timestamp); 
+    	}
+
+	    function onError(error) {
+        	alert('code: '    + error.code    + '\n' +
+					'message: ' + error.message + '\n');
+		}
+	 
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+    </script>
+  </head>
+  <body onLoad="init()">
+    <h1>GeoLocation</h1>
+    <table border="1">
+      <tr>  <td>Latitue</td>        <td id="latitude"></td>     <tr>
+      <tr>  <td>Longitude</td>      <td id="longitude"></td>    <tr>
+      <tr>  <td>Altitude</td>       <td id="altitude"></td>     <tr>
+      <tr>  <td>Timestamp</td>      <td id="timestamp"></td>    <tr>
+    </table>
+    </ul>
+  </body>
+</html>

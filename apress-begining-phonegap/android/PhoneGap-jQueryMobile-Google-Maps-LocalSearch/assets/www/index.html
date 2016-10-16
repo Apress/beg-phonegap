@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>PhoneGap</title>
+        <link rel="stylesheet" type="text/css" href="app.css"/>
+        <link rel="stylesheet" type="text/css" href="jquery.mobile-1.0a4.1.min.css"/>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false">
+        </script>
+        <script type="text/javascript" src="jquery-1.6.1.min.js">
+        </script>
+        <script type="text/javascript" src="jquery.mobile-1.0a4.1.min.js">
+        </script>
+        <script type="text/javascript" src="jquery.ui.map.min.js">
+        </script>
+        <script type="text/javascript" src="phonegap-1.0.0.js">
+        </script>
+        <script type="text/javascript" src="app.js">
+        </script>
+    </head>
+    <body>
+        <!-- Main Search Page -->
+        <div data-role="page">
+            <div data-role="header">
+                <h1>Local Search</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <div data-role="fieldcontain">
+                    <label for="search">
+                        Local Search 
+                    </label>
+                    <input type="search" name="searchbox" id="searchbox" value="Pizza"/>
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="slider">
+                        Search Range(kms):
+                    </label>
+                    <input type="range" name="range" id="range" value="5" min="1" max="25" />
+                </div>
+                <div data-role="fieldcontain">
+                    <button name="search" id="search">
+                        Search
+                    </button>
+                </div>
+                <div data-role="controlgroup" data-type="horizontal">
+                    <a href="#fav" data-role="button" data-icon="home">Favourites</a>
+                    <a href="index.html" data-role="button" data-icon="info">About us</a>
+                </div>
+            </div>
+            <!-- /content -->
+        </div>
+        <!-- /page --><!-- Search Result List Page -->
+        <div data-role="page" id="list">
+            <div data-role="header" data-position="fixed">
+                <h1>Result</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <ul id="result-list" data-role="listview" data-theme="g">
+                </ul>
+            </div>
+            <!-- /content -->
+            <div data-role="footer" data-id="result-footer" data-position="fixed" class="ui-bar-a ui-footer ui-footer-fixed fade ui-fixed-overlay" role="contentinfo" style="top: -1263px; ">
+                <div data-role="navbar" class="ui-navbar ui-navbar-noicons" role="navigation">
+                    <ul class="ui-grid-a">
+                        <li class="ui-block-a">
+                            <a href="#list" data-theme="a" class="ui-btn-active ui-state-persist ui-btn ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">List</span></span></a>
+                        </li>
+                        <li class="ui-block-b">
+                            <a href="#map" data-theme="a" class="ui-state-persist ui-btn ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Maps</span></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /navbar -->
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-- /page --><!-- Maps Page -->
+        <div data-role="page" id="map">
+            <div data-role="header">
+                <h1>Map</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content" class="map-content">
+                <div id="map_canvas">
+                </div>
+            </div>
+            <!-- /content -->
+            <div data-role="footer" data-id="result-footer" data-position="fixed" class="ui-bar-a ui-footer ui-footer-fixed fade ui-fixed-overlay" role="contentinfo" style="top: -1263px; ">
+                <div data-role="navbar" class="ui-navbar ui-navbar-noicons" role="navigation">
+                    <ul class="ui-grid-a">
+                        <li class="ui-block-a">
+                            <a href="#list" data-theme="a" class="ui-state-persist ui-btn ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">List</span></span></a>
+                        </li>
+                        <li class="ui-block-b">
+                            <a href="#map" data-theme="a" class="ui-btn-active ui-state-persist ui-btn ui-btn-up-a"><span class="ui-btn-inner"><span class="ui-btn-text">Maps</span></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /navbar -->
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-- /page --><!-- Favourite List Page -->
+        <div data-role="page" id="fav">
+            <div data-role="header">
+                <h1>Favourites</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <!--
+                <ul id="fav-list" data-role="listview" data-theme="g">
+                </ul>
+                -->
+                <ul id="fav-list" data-role="listview" data-theme="g">
+                </ul>
+            </div>
+            <!-- /content -->
+            <div data-role="footer" data-id="result-footer" data-position="fixed" class="ui-bar-a ui-footer ui-footer-fixed fade ui-fixed-overlay" role="contentinfo" style="top: -1263px; ">
+                <!-- /navbar -->
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-- /page --><!-- Business Details Page -->
+        <div data-role="page" id="details">
+            <div data-role="header">
+                <h1>Business Details</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <table summary="Business Details">
+                    <caption>
+                        <h3>Business Details</h3>
+                    </caption>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <div id="remove">
+									<button id="removefav" data-role="button">
+                                        Remove to Favorite
+                                    </button>
+                                </div>
+                                <div id="add">
+                                    <button id="addfav" data-role="button">
+                                        Add to Favorite
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <a id="homepage" data-role="button" href="">Visit HomePage</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                Name
+                            </th>
+                            <td id="name">
+                                ...
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Address
+                            </th>
+                            <td id="address">
+                                ...
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Phone
+                            </th>
+                            <td id="phone">
+                                ...
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Rating
+                            </th>
+                            <td id="rating">
+                                ...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /content -->
+        </div>
+        <!-- /page -->
+    </body>
+</html>

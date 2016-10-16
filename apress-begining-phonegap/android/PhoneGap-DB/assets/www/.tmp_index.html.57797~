@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap</title>
+    <script type="text/javascript" src="phonegap.0.9.5.js"></script>
+    <script type="text/javascript">
+       var filename = "file:///sdcard/read-write.txt";
+       /** Called when phonegap javascript is loaded */
+		function onDeviceReady(){
+			var readButton = document.getElementById("read");
+			var writeButton = document.getElementById("write");
+			
+			readButton.addEventListener("click",readFile,false);
+			saveButton.addEventListener("click",saveFile,false);
+			    		
+		}
+		
+		function readFile(){
+		
+		   window.resolveLocalFileSystemURI(
+		   		//filename to be read
+		   		filename,
+		   		
+		        //success callback 
+		   		function(fileEntry){
+		   		   alert('1');
+		   		},
+		   		
+		   		//error callback
+		   		function(error){
+		   		   alert(filename+" not present, please add content and click Save first");
+		   		}
+		   	);
+		
+		}
+		
+		function saveFile(){
+		
+		   window.resolveLocalFileSystemURI(
+		   		//filename to be read
+		   		filename,
+		   		
+		        //success callback 
+		   		function(fileEntry){
+		   		   alert('1');
+		   		},
+		   		
+		   		//error callback
+		   		function(error){
+		   		   alert(filename+" not present, please add content and click Save first");
+		   		}
+		   	);
+		
+		}
+		
+		function onResolveSuccess(fileEntry){
+			fileEntry.file(onSuccess,onError);
+		}
+		
+		function onSuccess(file) {
+			var reader = new FileReader();
+    		reader.onloadend = function(evt) {
+	        	console.log("read success");
+    	    	console.log(evt.target.result);
+    	    	alert(evt.target.result);
+    		};
+    		reader.readAsText(file);		
+    	}
+
+	    function onError(error) {
+        	alert('code: '    + error.code    + '\n' +
+					'message: ' + error.message + '\n');
+		}
+	 
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+    </script>
+  </head>
+  <body onLoad="init()">
+    <h1>Read Write File</h1>
+    <table>
+    	<tr>
+    		<td colspan="2">/sdcard/read-write.txt</td>
+    	</tr>        
+    	<tr>
+    		<td colspan="2"><textarea id="textarea" rows="10" cols="30"></textarea></td>
+    	</tr>
+    	<tr>
+    		<td><button id="read">Read</button></td><td><button id="save">Save</button></td>
+    	</tr>
+    </table>
+    
+  </body>
+</html>

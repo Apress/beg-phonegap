@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>PhoneGap</title>
+        
+        <script type="text/javascript" charset="utf-8" src="phonegap-1.1.0.js">
+        </script>
+		 <script type="text/javascript" charset="utf-8" src="simpleplugin.js">
+        </script>
+        <script type="text/javascript" charset="utf-8">
+        	
+            document.addEventListener('deviceready', function(){
+                var btn = document.getElementById("hello");
+				var textbox = document.getElementById("name");
+				var output = document.getElementById("output");
+				
+                btn.addEventListener('click',function(){
+					
+                    var text = textbox.value;
+					
+                    window.plugins.simpleplugin.hello(text, 
+						//success callback
+						function(result){
+                        	output.innerHTML = result;
+                    	}
+						//failure callback, 
+						,function(err){
+                        	output.innerHTML = "Failed to invoke simple plugin";
+                    	});
+                });
+                
+            }, true);
+            
+            
+			
+        </script>
+		
+    </head>
+    <body>
+        <h1>Simple Plugin Demo</h1>
+        <table border="1">
+            <tr>
+                <td>
+                    Enter Name
+                </td>
+                <td>
+                    <input type="text" name="name" id="name">
+                    </input>
+                </td>
+			</tr>
+			<tr>
+				<td>
+                    <b>Output:</b>
+                </td>
+                <td>
+                    <div id="output"></div>
+                </td>
+            </tr>
+			<tr>
+                <td colspan="2">
+                    <button id="hello">Say Hello</button>
+                    
+                </td>
+			</tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<title>jQuery Mobile Touch Events Demo</title>
+	
+	<link rel="stylesheet"  href="jquery.mobile-1.0a4.1.min.css" /> 
+
+	<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="jquery.mobile-1.0a4.1.min.js"></script> 
+	<script >
+	    
+	   
+	    $(document).ready(function(){
+	    
+	       $(window).bind('orientationchange', function(event) {
+   				$("#placeholder").html("Orientation changed to "+event.orientation);
+ 			});
+ 
+	        
+	 	});
+	 	
+	</script>
+</head>
+<body>
+    <!-- Main Page-->
+	<div data-role="page" id="main">
+
+		
+		<div data-role="header" >
+			<h1>Touch Events</h1>
+		</div>
+		
+
+		<div data-role="content">	
+			<h1>Orientation Events example </h1>
+			<div id="placeholder"></div>
+		</div>
+
+		
+		<div data-role="footer" class="ui-bar">
+			<h1>Footer</h1>
+		</div>
+		
+	</div>
+	<!-- First Page End -->
+	
+</body>
+</html>

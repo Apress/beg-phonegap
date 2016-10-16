@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>PhoneGap</title>
+        <script type="text/javascript" src="phonegap.0.9.5.js">
+        </script>
+        <script type="text/javascript">
+        	
+            var filename = "read-write.txt";
+            var filePath = "file:///sdcard/read-write.txt";
+			var textarea = document.getElementById("textarea");
+			
+            /** Called when phonegap javascript is loaded */
+            function onDeviceReady(){
+                var readButton = document.getElementById("read");
+                var writeButton = document.getElementById("write");
+                
+                readButton.addEventListener("click", readFile, false);
+                writeButton.addEventListener("click", saveFile, false);
+                
+            }
+            
+            function readFile(){
+                
+                window.resolveLocalFileSystemURI(    //filename to be read
+                filePath,    //success callback 
+                function(fileEntry){
+                	fileEntry.file(
+						function(file){
+							var fileReader = new FileReader();
+                			fileReader.onloadend = function(evt){
+                    			document.getElementById("textarea").value = evt.target.result;
+                			};
+                			fileReader.readAsText(file);
+						},
+						function(error){
+							alert("Got error while reading "+filePath);
+						})
+                },    //error callback
+                function(error){
+                    alert(filename + " not present, please add content and click Save first");
+                });
+                
+            }
+            
+            function saveFile(){
+            
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+					
+                    var sdcardEntry = fileSystem.root;
+					sdcardEntry.getFile(
+						filename,
+						{create:true},
+						function(fileEntry){
+							fileEntry.createWriter(
+								function(fileWriter){
+									 fileWriter.onwrite = function(evt) {
+       								 	alert("Write was successful!");
+										document.getElementById("textarea").value="";
+    								 };
+									 fileWriter.write(document.getElementById("textarea").value);
+								},
+								function(error){
+									alert("Failed to get a file writer for "+filename);									
+								});
+							
+							
+							
+						},
+						function(error){
+							alert("Got error while reading "+filename+" "+error);
+						}
+						) ;          
+                    
+                }, function(error){
+                    alert("Got Error while gaining access to file system");
+                });
+                
+                
+                
+            }
+            
+            
+            
+            /** Called when browser load this page*/
+            function init(){
+                document.addEventListener("deviceready", onDeviceReady, false);
+            }
+        </script>
+    </head>
+    <body onLoad="init()">
+        <h1>Read Write File</h1>
+        <table>
+            <tr>
+                <td colspan="2">
+                    /sdcard/read-write.txt
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea id="textarea" rows="10" cols="30">
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="read">
+                        Read
+                    </button>
+                </td>
+                <td>
+                    <button id="write">
+                        Write
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

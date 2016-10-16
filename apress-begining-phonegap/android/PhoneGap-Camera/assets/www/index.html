@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap</title>
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript">
+       /** Called when phonegap javascript is loaded */
+		function onDeviceReady(){
+		    var button = document.getElementById("capture");
+		    button.addEventListener("click",captureImage,false);
+			 
+		}
+        function captureImage(){
+			var cameraOptions = { quality: 50 };
+			navigator.camera.getPicture( onSuccess, onError, cameraOptions );
+		};
+		
+		function onSuccess(imageData) {
+		    var image = document.getElementById('cameraImage');
+            image.src = "data:image/jpeg;base64," + imageData;
+    	}
+
+	    function onError(error) {
+        	alert('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
+		}
+	 
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+    </script>
+  </head>
+  <body onLoad="init()">
+    <h1>Compass</h1>
+    <button id="capture" >Capture Image</button>
+    
+    <img id="cameraImage"></img>
+    
+  </body>
+</html>

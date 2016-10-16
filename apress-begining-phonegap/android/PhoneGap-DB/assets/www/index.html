@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>PhoneGap DB</title>
+        <script type="text/javascript" src="phonegap-1.1.0.js">
+        </script>
+        <script type="text/javascript">
+            var firstNameBox = null;
+			var lastNameBox = null;
+            var db = null;
+            var dataTable = null;
+            /** Called when phonegap javascript is loaded */
+            function onDeviceReady(){
+                var addButton = document.getElementById("add");
+				firstNameBox = document.getElementById("firstName");
+				lastNameBox = document.getElementById("lastName");
+				dataTable = document.getElementById("data-table");
+				
+				db = window.openDatabase("contactDB", "1.0", "Contact Database", 1000000);//name,version,display name, size
+                addButton.addEventListener(
+					"click",
+					function(){
+						
+						db.transaction(
+							//function sql statements
+							function (tx){
+								ensureTableExists(tx);
+								var firstName = firstNameBox.value;
+								var lastName = lastNameBox.value;
+								
+								var sql = 'INSERT INTO Contacts (firstName, lastName) VALUES ("'+firstName+'","'+lastName+'")';
+								tx.executeSql(sql);
+     							
+							},
+							//error callback
+							function (err){
+								alert("error callback "+err.code);
+								
+							},
+							//success callback
+							function (err){
+								//alert("success callback "+err.code);
+								loadFromDB();
+							}
+							);
+						
+						
+                	}, 
+					false);
+				loadFromDB();
+                
+            }
+            
+			function loadFromDB(){
+				
+				db.transaction(
+							//function sql statements
+							function (tx){
+								ensureTableExists(tx);
+								tx.executeSql('SELECT * FROM Contacts', 
+												[], 
+												function(tx, results){
+													var htmlStr=""; 
+													for(var index=0;index<results.rows.length;index++){
+														var item = results.rows.item(index);
+														htmlStr=htmlStr+"<tr><td>"+item.firstName+"</td><td>"+item.lastName+"</td><td><button onclick=\"deleteEntry('"+item.id+"');\">X</button></td></tr>";
+														
+													}
+													dataTable.innerHTML=htmlStr;
+												} 
+												,
+												function(err){
+													alert("Unable to fetch result from Contacts Table");
+												}
+											);												
+     							
+							},
+							//error callback
+							function (err){
+								alert("error callback "+err.code+" "+err.message);
+								
+							},
+							//success callback
+							function (){
+								firstNameBox.value="";
+								lastNameBox.value="";
+								
+							}
+							); 
+				
+				 
+			}
+			
+			function deleteEntry(id){
+				db.transaction(
+							//function sql statements
+							function (tx){
+								ensureTableExists(tx);
+								tx.executeSql('Delete FROM Contacts where id='+id);												
+     							
+							},
+							//error callback
+							function (err){
+								alert("error callback "+err.code+" "+err.message);
+								
+							},
+							//success callback
+							function (err){
+								//alert("success callback ");
+								loadFromDB();
+								
+							}
+							);
+				
+				 
+			}
+			
+            function ensureTableExists(tx){
+     			tx.executeSql('CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY, firstName,lastName)');
+     			
+			}
+            /** Called when browser load this page*/
+            function init(){
+                document.addEventListener("deviceready", onDeviceReady, false);
+            }
+        </script>
+        <style>
+            td {
+                width: 100px;
+            }
+            
+            input {
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body onLoad="init()">
+        <h3>Read Write DB</h3>
+        <table border="1">
+            <tr>
+                <td>
+                    <b>First Name</b>
+                </td>
+                <td>
+                    <b>Last Name</b>
+                </td>
+                <td>
+                    <b>Action</b>
+                </td>
+            </tr>
+        </table>
+        <table id="data-table">
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <input id="firstName" type="text">
+                    </input>
+                </td>
+                <td>
+                    <input id="lastName" type="text">
+                    </input>
+                </td>
+                <td>
+                    <button id="add">
+                        Add
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

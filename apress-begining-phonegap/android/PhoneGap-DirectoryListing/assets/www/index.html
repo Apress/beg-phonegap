@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap</title>
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript">
+       /** Called when phonegap javascript is loaded */
+		function onDeviceReady(){
+			window.resolveLocalFileSystemURI("file:///sdcard", onResolveSuccess, onError);
+		}
+		
+		function onResolveSuccess(fileEntry){
+		  var directoryReader = fileEntry.createReader();
+		  directoryReader.readEntries(onSuccess,onError);
+		}
+
+		function onSuccess(entries) {
+		  document.getElementById("loading").innerHTML="";
+		  var ul = document.getElementById("file-listing");
+		  for(var index=0;index<entries.length;index++){
+		    var li = document.createElement('li');
+		    li.innerHTML = entries[index].name;
+		    ul.appendChild(li);
+		  }
+    	}
+
+	    function onError(error) {
+        	alert('code: '    + error.code    + '\n' +
+					'message: ' + error.message + '\n');
+		}
+	 
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+    </script>
+  </head>
+  <body onLoad="init()">
+    <h1>List SDCard Contents</h1>
+    
+    <ul id="file-listing"></ul>
+    <div id="loading">Loading .. </div>
+    
+  </body>
+</html>

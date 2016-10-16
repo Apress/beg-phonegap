@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap</title>
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript">
+       /** Called when phonegap javascript is loaded */
+		function onDeviceReady(){
+		    var options = { frequency: 1000 };  // Update every 1 seconds
+			navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
+		}
+
+		function onSuccess(acceleration) {
+		    document.getElementById('x').innerHTML = acceleration.x;
+		    document.getElementById('y').innerHTML = acceleration.y;
+		    document.getElementById('z').innerHTML = acceleration.z;
+		    document.getElementById('timestamp').innerHTML = acceleration.timestamp; 
+    	}
+
+	    function onError(error) {
+        	alert('code: '    + error.code    + '\n' +
+					'message: ' + error.message + '\n');
+		}
+	 
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+    </script>
+  </head>
+  <body onLoad="init()">
+    <h1>Accelerometer</h1>
+    <table border="1">
+      <tr>  <td>X</td>           <td id="x"></td>            <tr>
+      <tr>  <td>Y</td>           <td id="y"></td>            <tr>
+      <tr>  <td>Z</td>           <td id="z"></td>            <tr>
+      <tr>  <td>Timestamp</td>   <td id="timestamp"></td>    <tr>
+    </table>
+    </ul>
+  </body>
+</html>

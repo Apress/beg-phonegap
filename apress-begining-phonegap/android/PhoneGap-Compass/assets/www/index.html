@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap Compass</title>
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript">
+       /** Called when phonegap javascript is loaded */
+		function onDeviceReady(){
+		    var button = document.getElementById("capture");
+		    var compassOptions = { frequency: 1000 };
+		    navigator.compass.watchHeading(onSuccess, onError, compassOptions);
+		};
+		
+		function onSuccess(heading) {
+		    var image = document.getElementById('compass');
+		    var headingDiv = document.getElementById('compassHeading');
+		    headingDiv.innerHTML=heading.magneticHeading;
+		    var reverseHeading = 360 - heading.magneticHeading;
+		    image.style.webkitTransform = "rotate("+reverseHeading+"deg)";
+    	}
+
+	    function onError(error) {
+        	alert('code: '    + error.code    + '\n' +'message: ' + error.message + '\n');
+		}
+	 
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+    </script>
+	
+  </head>
+  <body onLoad="init()">
+    <h1>Compass</h1>
+    <table><tr><td>Compass Heading</td><td> <div id="compassHeading">....</div></td><td>Degrees</td></tr></table>
+    
+    <img id="compass" src="compass.png" 
+    	style="width:400px;height:400px;margin-left:auto;margin-right:auto;auto;display:block"></img>
+    
+  </body>
+</html>

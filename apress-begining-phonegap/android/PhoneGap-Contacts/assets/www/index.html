@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap</title>
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript">
+       /** Called when phonegap javascript is loaded */
+       function onDeviceReady(){
+			// find all contacts
+			var options = new ContactFindOptions();
+			options.filter=""; 
+			var fields = ["phoneNumbers", "name"];
+			navigator.contacts.find(fields, onSuccess, onError, options);
+       }
+	   function onSuccess(contacts) {
+	        var ul = document.getElementById("list");
+	        for(var index=0;index<contacts.length;index++){
+	            var name = contacts[index].name.formatted;
+	            var phoneNumber = contacts[index].phoneNumbers[0].value;
+	            var li = document.createElement('li');
+	            li.innerHTML = "<a href=\"tel://"+phoneNumber+"\">"+name+"</a>";
+	            ul.appendChild(li);
+	        }
+       };
+       function onError() {
+            alert('onError!');
+       };
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+    </script>
+  </head>
+  <body onLoad="init()">
+    <h1>Contacts</h1>
+    <ul id="list">
+    </ul>
+  </body>
+</html>

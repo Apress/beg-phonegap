@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>PhoneGap</title>
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    <script type="text/javascript">
+       /** Called when phonegap javascript is loaded */
+		function onDeviceReady(){
+		    var options = { frequency: 0100 };  // Update every 1 seconds
+			navigator.accelerometer.watchAcceleration(onSuccess, onError,options);
+		}
+
+		function onSuccess(acceleration) {
+		   moveX(acceleration);
+		   moveXY(acceleration); 
+    	}
+    	
+    	function moveXY(acceleration){
+    	    
+    		var xyBase = document.getElementById("x-y-base");
+		    var circle = document.getElementById("circle");
+		    var position = getPos(xyBase);
+		    var adjustX = 20;
+		    var adjustY = 20;
+		    var radius = 160;
+		    var left = position.x;
+		    var top  = position.y;
+		    var width  = xyBase.clientWidth;
+		    var height = xyBase.clientHeight;
+		    
+		    var centerX = left + width/2 - adjustX;
+		    var centerY = top + height/2 - adjustY;
+			centerY = centerY - (radius * acceleration.y *  1.2) /10;
+			centerX = centerX - (radius * acceleration.x * -1.2) /10;
+					    
+		    circle.style.left=centerX+"px";
+		    circle.style.top=centerY+"px";
+		    
+    	}
+    	function moveX(acceleration){
+    	    //FIXME Move local variables to make them global
+    	    var xBase = document.getElementById("x-base");
+		    var oval = document.getElementById("oval");
+		    var basePosition = getPos(xBase);
+
+		    var ovalLeft = basePosition.x + (xBase.clientWidth/2) - (xBase.clientWidth * acceleration.x * -1)/10;
+		    
+		    if( ( ovalLeft + oval.clientWidth )> (xBase.clientWidth+basePosition.x) ){
+		      ovalLeft = xBase.clientWidth + basePosition.x - oval.clientWidth;
+		    }
+		    if (ovalLeft < basePosition.x){
+		      ovalLeft = basePosition.x;
+		    }
+		    oval.style.left=ovalLeft+"px";
+		}
+
+	    function onError(error) {
+        	alert('code: '    + error.code    + '\n' +
+					'message: ' + error.message + '\n');
+		}
+	 
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+       	function getPos(el) {
+       		var position = {};
+			if (document.getBoxObjectFor) {
+				var bo = document.getBoxObjectFor(el);
+				position.x = bo.x;
+				position.y = bo.y;
+			}
+			else {
+				var rect = el.getBoundingClientRect();
+				position.x = rect.left;
+				position.y = rect.top;
+			} 
+			return position;
+		}
+    </script>
+  </head>
+  <body onLoad="init()">
+    <h1>Accelerometer</h1>
+    
+    <div id="horizontal-bubble">
+      <img id="circle" src="accelerometer-circle-bubble.png" style="position:absolute"></img>
+      <img id="x-y-base" src="x-y-accelerator-base.png"></img>
+    </div>
+    
+    <div id="vertical-bubble">
+      <img id="x-base" src="z-accelerator-base.png"></img>
+      <img id="oval" src="accelerometer-circle-oval.png" style="position:absolute;left:0px"></img>
+    </div>  
+    
+  </body>
+</html>

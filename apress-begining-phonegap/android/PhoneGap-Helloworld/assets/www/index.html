@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+  
+    <title>PhoneGap</title>
+    
+    <script type="text/javascript" src="phonegap-1.1.0.js"></script>
+    
+    <script type="text/javascript">
+    
+       /** Called when phonegap javascript is loaded */
+       function onDeviceReady(){
+         document.getElementById("helloworld").innerHTML="Hello World! Loaded PhoneGap Framework!";
+		 console.log("###################################");
+       }
+       
+       /** Called when browser load this page*/
+       function init(){
+          document.addEventListener("deviceready", onDeviceReady, false);
+       }
+       
+    </script>
+
+
+  </head>
+  <body onLoad="init()">
+  
+    <h1 id="helloworld">...</h1>
+    
+  </body>
+</html>

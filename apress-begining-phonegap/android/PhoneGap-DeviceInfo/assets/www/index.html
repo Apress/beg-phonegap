@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>PhoneGap</title>
+        <script type="text/javascript" src="phonegap-1.1.0.js">
+        </script>
+        <script type="text/javascript">
+            
+            /** Called when phonegap javascript is loaded */
+            function onDeviceReady(){
+                document.getElementById("deviceName").innerHTML = device.name;
+                document.getElementById("phoneGapVersion").innerHTML = device.phonegap;
+                document.getElementById("mobilePlatform").innerHTML = device.platform;
+                document.getElementById("platformVersion").innerHTML = device.version;
+                document.getElementById("uuid").innerHTML = device.uuid;
+            }
+            
+            /** Called when browser load this page*/
+            function init(){
+                document.addEventListener("deviceready", onDeviceReady, false);
+            }
+        </script>
+        <script src="http://debug.phonegap.com/target/target-script-min.js#begining-phonegap">
+        </script>
+    </head>
+    <body onLoad="init()">
+        <h1>Device Info</h1>
+        <table border="1">
+            <tr>
+                <td>
+                    Device Name
+                </td>
+                <td id="deviceName">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    PhoneGap Version
+                </td>
+                <td id="phoneGapVersion">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Mobile Platform
+                </td>
+                <td id="mobilePlatform">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Platform Version
+                </td>
+                <td id="platformVersion">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    UUID
+                </td>
+                <td id="uuid">
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
